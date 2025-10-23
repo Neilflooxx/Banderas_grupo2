@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bandera de Nueva Zelanda</title>
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      background:#0b0f15;
+      color:#eaf0ff;
+      font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    h1{margin:0;font-size:28px;font-weight:800}
+    canvas{
+      background:#101726;
+      border:2px solid #243146;
+      border-radius:12px;
+      display:block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bandera de Nueva Zelanda</h1>
+  <canvas id="lienzo" width="900" height="450"></canvas>
+  <script>
+    const canvas = document.getElementById("lienzo");
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+
+    const azulOscuro = "#00247D";
+    const azulUnion = "#012169";
+    const rojo = "#CC142B";
+    const blanco = "#FFFFFF";
+
+    ctx.fillStyle = azulOscuro;
+    ctx.fillRect(0, 0, W, H);
+
+    const ujW = W * 0.5;
+    const ujH = H * 0.5;
+    ctx.fillStyle = azulUnion;
+    ctx.fillRect(0, 0, ujW, ujH);
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, 0, ujW, ujH);
+    ctx.clip();
+
+    ctx.strokeStyle = blanco;
+    ctx.lineWidth = 60;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(ujW, ujH);
+    ctx.moveTo(0, ujH);
+    ctx.lineTo(ujW, 0);
+    ctx.stroke();
+
+    ctx.strokeStyle = rojo;
+    ctx.lineWidth = 30;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(ujW, ujH);
+    ctx.moveTo(0, ujH);
+    ctx.lineTo(ujW, 0);
+    ctx.stroke();
+
+    ctx.fillStyle = blanco;
+    ctx.fillRect(0, ujH/2 - 50, ujW, 100);
+    ctx.fillRect(ujW/2 - 50, 0, 100, ujH);
+
+    ctx.fillStyle = rojo;
+    ctx.fillRect(0, ujH/2 - 30, ujW, 60);
+    ctx.fillRect(ujW/2 - 30, 0, 60, ujH);
+
+    ctx.restore();
+
+    function dibujarEstrella(x, y, radio, color, borde) {
+      ctx.fillStyle = blanco;
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        const ang = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+        const px = x + Math.cos(ang) * (radio + borde);
+        const py = y + Math.sin(ang) * (radio + borde);
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        const ang = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+        const px = x + Math.cos(ang) * radio;
+        const py = y + Math.sin(ang) * radio;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    dibujarEstrella(W * 0.78, H * 0.25, 32, rojo, 9);
+    dibujarEstrella(W * 0.70, H * 0.45, 32, rojo, 9);
+    dibujarEstrella(W * 0.84, H * 0.45, 32, rojo, 9);
+    dibujarEstrella(W * 0.76, H * 0.70, 38, rojo, 10);
+  </script>
+</body>
+</html>

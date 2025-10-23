@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bandera de Venezuela</title>
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      background:#0b0f15;
+      color:#eaf0ff;
+      font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif
+    }
+    h1{margin:0;font-size:28px;font-weight:800}
+    canvas{
+      background:#101726;
+      border:2px solid #243146;
+      border-radius:12px;
+      display:block
+    }
+  </style>
+</head>
+<body>
+  <h1>Bandera de Venezuela</h1>
+  <canvas id="lienzo" width="750" height="570"></canvas>
+  <script>
+    const c = document.getElementById("lienzo");
+    const ctx = c.getContext("2d");
+    const W = c.width, H = c.height;
+
+    const amarillo = "#FFCC00";
+    const azul = "#00247D";
+    const rojo = "#CF142B";
+    const blanco = "#FFFFFF";
+
+    const banda = H / 3;
+    ctx.fillStyle = amarillo; ctx.fillRect(0, 0, W, banda);
+    ctx.fillStyle = azul;     ctx.fillRect(0, banda, W, banda);
+    ctx.fillStyle = rojo;     ctx.fillRect(0, 2 * banda, W, banda);
+
+    function estrella(x, y, radio, rot = -Math.PI / 2) {
+      const p = 5, r2 = radio * 0.42;
+      ctx.beginPath();
+      for (let i = 0; i < p * 2; i++) {
+        const ang = rot + i * Math.PI / p;
+        const rr = i % 2 === 0 ? radio : r2;
+        const px = x + Math.cos(ang) * rr;
+        const py = y + Math.sin(ang) * rr;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fillStyle = blanco;
+      ctx.fill();
+    }
+
+   
+    const cx = W / 2;
+    const cy = banda + banda / 0.95; 
+    const R = 170; 
+    const inicio = 165 * Math.PI / 180;
+    const fin = 15 * Math.PI / 180;
+    const paso = (inicio - fin) / 8; 
+    const radioEstrella = 26;
+
+    for (let k = 0; k < 9; k++) {
+      const a = inicio - k * paso;
+      const x = cx + R * Math.cos(a);
+      const y = cy - R * Math.sin(a);
+      estrella(x, y, radioEstrella);
+    }
+  </script>
+</body>
+</html>

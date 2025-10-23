@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bandera de los Estados Federados de Micronesia</title>
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      background:#0b0f15;
+      color:#eaf0ff;
+      font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif
+    }
+    h1{margin:0;font-size:26px;font-weight:800}
+    canvas{
+      background:#101726;
+      border:2px solid #243146;
+      border-radius:12px;
+      display:block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bandera de los Estados Federados de Micronesia</h1>
+  <canvas id="lienzo" width="750" height="450"></canvas>
+  <script>
+    const lienzo=document.getElementById("lienzo");
+    const ctx=lienzo.getContext("2d");
+    const W=lienzo.width, H=lienzo.height;
+
+    const celeste="#75B2DD", blanco="#FFFFFF";
+    ctx.fillStyle=celeste;
+    ctx.fillRect(0,0,W,H);
+
+    function estrella(x,y,r){
+      ctx.beginPath();
+      for(let i=0;i<5;i++){
+        const ang1=(i*2*Math.PI)/5 - Math.PI/2;
+        const ang2=ang1+Math.PI/5;
+        ctx.lineTo(x+Math.cos(ang1)*r,y+Math.sin(ang1)*r);
+        ctx.lineTo(x+Math.cos(ang2)*r*0.4,y+Math.sin(ang2)*r*0.4);
+      }
+      ctx.closePath();
+      ctx.fillStyle=blanco;
+      ctx.fill();
+    }
+
+    const centroX=W/2, centroY=H/2;
+    const distancia=140; 
+    const tamaño=50;     
+
+    estrella(centroX, centroY-distancia, tamaño); 
+    estrella(centroX, centroY+distancia, tamaño); 
+    estrella(centroX-distancia, centroY, tamaño); 
+    estrella(centroX+distancia, centroY, tamaño); 
+  </script>
+</body>
+</html>

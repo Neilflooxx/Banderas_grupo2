@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Bandera de Albania</title>
+  <style>
+    body{
+      background-color: #0f1622;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    h2{ margin-top: 10px; }
+    canvas{
+      display: block;
+      margin: 20px auto;
+      background-color: #111;
+      border: 1px solid #333;
+      border-radius: 10px;
+      width: 400px;
+      height: 250px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Bandera de Albania</h2>
+  <canvas id="lienzo" width="400" height="250"></canvas>
+  <script>
+    const lienzo = document.getElementById("lienzo");
+    const ctx = lienzo.getContext("2d");
+    const colorRojo = "#E41B13";
+    const escudo = new Image();
+    escudo.src = "escudoalbania.png";
+    let escudoCargado = false;
+
+    escudo.onload = function(){
+      escudoCargado = true;
+      dibujar();
+    };
+
+    function dibujar(){
+      const ancho = lienzo.width;
+      const alto = lienzo.height;
+      ctx.clearRect(0, 0, ancho, alto);
+      ctx.fillStyle = colorRojo;
+      ctx.fillRect(0, 0, ancho, alto);
+      if(escudoCargado){
+        const altoEscudo = alto * 0.55;
+        const anchoEscudo = altoEscudo * (escudo.width / escudo.height);
+        const x = (ancho - anchoEscudo)/2;
+        const y = (alto - altoEscudo)/2;
+        ctx.drawImage(escudo, x, y, anchoEscudo, altoEscudo);
+      } else {
+        ctx.fillStyle = "black";
+        const anchoSimbolo = ancho * 0.4;
+        const altoSimbolo = alto * 0.5;
+        const x = (ancho - anchoSimbolo)/2;
+        const y = (alto - altoSimbolo)/2;
+        ctx.fillRect(x, y, anchoSimbolo, altoSimbolo);
+      }
+    }
+
+    dibujar();
+  </script>
+</body>
+</html>

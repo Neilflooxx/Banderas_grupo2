@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Gráfico con 4 polígonos — Canvas</title>
+  <style>
+    html,body{
+      height:100%;
+      margin:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#dcdcdc;
+      font-family:Arial, sans-serif;
+    }
+    canvas{
+      display:block;
+      background:white;
+      box-shadow:0 6px 18px rgba(0,0,0,0.2);
+      border:10px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="c" width="850" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+
+    // Polígonos
+    const Poly1 = [ [65,107],[333,310],[64,514] ]; // Triángulo
+    const Poly2 = [ [64,107],[880,106],[880,240],[246,243] ]; // Franja superior
+    const Poly3 = [ [64,513],[881,513],[881,378],[244,379] ]; // Franja inferior
+    const Poly4 = [ [881,378],[880,240],[244,244],[330,311],[241,380] ]; // Figura central
+
+
+    function getBounds(polys){
+      const all = polys.flat();
+      const xs = all.map(p=>p[0]);
+      const ys = all.map(p=>p[1]);
+      return {
+        minX: Math.min(...xs),
+        maxX: Math.max(...xs),
+        minY: Math.min(...ys),
+        maxY: Math.max(...ys)
+      };
+    }
+
+    const bounds = getBounds([Poly1, Poly2, Poly3, Poly4]);
+    const contentW = bounds.maxX - bounds.minX;
+    const contentH = bounds.maxY - bounds.minY;
+    const margin = 30;
+
+    const scale = Math.min(
+      (canvas.width - margin*2) / contentW,
+      (canvas.height - margin*2) / contentH
+    );
+
+    const offsetX = (canvas.width - contentW * scale) / 2 - bounds.minX * scale;
+    const offsetY = (canvas.height - contentH * scale) / 2 - bounds.minY * scale;
+
+    // === Fondo blanco ===
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Función para dibujar polígonos 
+    function drawPolygon(points, fillStyle, strokeStyle, lineWidth=2){
+      ctx.beginPath();
+      const [x0,y0] = points[0];
+      ctx.moveTo(x0*scale+offsetX, y0*scale+offsetY);
+      for(let i=1;i<points.length;i++){
+        const [x,y] = points[i];
+        ctx.lineTo(x*scale+offsetX, y*scale+offsetY);
+      }
+      ctx.closePath();
+      ctx.fillStyle = fillStyle;
+      ctx.fill();
+      if(strokeStyle){
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = strokeStyle;
+        ctx.stroke();
+      }
+    }
+
+    // === Dibujar polígonos (puedes cambiar colores a gusto) ===
+    drawPolygon(Poly2, '#000000'); // Franja azul superior
+    drawPolygon(Poly3, '#419444'); // Franja roja inferior
+    drawPolygon(Poly1, '#F03A43'); // Triángulo amarillo
+    drawPolygon(Poly4, '#FFFFFF', '#AAAAAA'); // Figura central blanca
+
+    // === Marco de encuadre ===
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = '#000000';
+    ctx.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
+  </script>
+</body>
+</html>

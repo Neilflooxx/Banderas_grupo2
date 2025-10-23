@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bandera de Kazajistán</title>
+  <style>
+    body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#0b0f15;color:#eaf0ff;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    h1{margin:0;font-size:28px;font-weight:800}
+    canvas{background:#101726;border:2px solid #243146;border-radius:12px;display:block}
+  </style>
+</head>
+<body>
+  <h1>Bandera de Kazajistán</h1>
+  <canvas id="lienzo" width="600" height="340"></canvas>
+  <script>
+    const lienzo=document.getElementById("lienzo");
+    const ctx=lienzo.getContext("2d");
+    const W=lienzo.width,H=lienzo.height;
+    const celeste="#00AFCA";
+    ctx.fillStyle=celeste;
+    ctx.fillRect(0,0,W,H);
+
+    const ornamento=new Image();
+    ornamento.src="logo2bandera.png";
+    const emblema=new Image();
+    emblema.src="logo1bandera.png";
+
+    ornamento.onload=()=>{
+      const ancho=58, alto=H*0.88;
+      ctx.drawImage(ornamento, W*0.019, H*0.06, ancho, alto);
+    };
+
+    emblema.onload=()=>{
+      const tam=260;
+      const x=W*0.48 - tam/2;
+      const y=H*0.44 - tam/2;
+      ctx.drawImage(emblema, x, y, tam, tam);
+    };
+  </script>
+</body>
+</html>

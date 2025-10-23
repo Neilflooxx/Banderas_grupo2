@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Banderas del Mundo</title>
+<style>
+  body {
+    background: #eef3f6;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  h1 {
+    color: #1c4a7f;
+    text-shadow: 1px 1px 2px #0003;
+  }
+  .bandera {
+    display: inline-block;
+    margin: 15px;
+    text-align: center;
+  }
+  canvas {
+    border: 1px solid #333;
+    width: 200px;
+    height: 120px;
+  }
+  p {
+    margin-top: 5px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+  <h1>Banderas del Mundo</h1>
+  <div id="banderas"></div>
+
+  <script>
+    const contenedor = document.getElementById("banderas");
+
+    function crearBandera(nombre, dibujar) {
+      const div = document.createElement("div");
+      div.className = "bandera";
+      const canvas = document.createElement("canvas");
+      canvas.width = 300;
+      canvas.height = 180;
+      const ctx = canvas.getContext("2d");
+      dibujar(ctx);
+      const p = document.createElement("p");
+      p.textContent = nombre;
+      div.appendChild(canvas);
+      div.appendChild(p);
+      contenedor.appendChild(div);
+    }
+
+    // 🇲🇰 Macedonia del Norte
+    crearBandera("Macedonia del Norte", (ctx) => {
+      ctx.fillStyle = "#D20000"; ctx.fillRect(0, 0, 300, 180);
+      ctx.strokeStyle = "#FFD700"; ctx.lineWidth = 20;
+      for (let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.moveTo(150, 90);
+        ctx.lineTo(150 + 300 * Math.cos(i * Math.PI / 4),
+                   90 + 300 * Math.sin(i * Math.PI / 4));
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.arc(150, 90, 30, 0, 2 * Math.PI);
+      ctx.fillStyle = "#FFD700"; ctx.fill();
+    });
+
+    // 🇹🇹 Trinidad y Tobago
+crearBandera("Trinidad y Tobago", (ctx) => {
+  const w = 300, h = 180;
+
+  // Fondo rojo
+  ctx.fillStyle = "#EF3340";
+  ctx.fillRect(0, 0, w, h);
+
+  // Dibujar banda diagonal (negra con bordes blancos)
+  ctx.save();
+  ctx.translate(0, 0);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(w, h);
+  ctx.lineWidth = 60;
+  ctx.strokeStyle = "#000";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(-15, 0);
+  ctx.lineTo(w, h + 15);
+  ctx.lineWidth = 80;
+  ctx.strokeStyle = "white";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(15, -15);
+  ctx.lineTo(w + 15, h);
+  ctx.lineWidth = 80;
+  ctx.strokeStyle = "white";
+  ctx.stroke();
+
+  ctx.restore();
+
+  // Redibujar banda negra al centro (sobre bordes blancos)
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(w, h);
+  ctx.lineWidth = 60;
+  ctx.strokeStyle = "#000";
+  ctx.stroke();
+  ctx.restore();
+});
+
+
+// Australia
+crearBandera("Australia", (ctx) => {
+  // Fondo azul oscuro
+  ctx.fillStyle = "#012169";
+  ctx.fillRect(0, 0, 300, 180);
+
+  // Cuadro superior izquierdo (mini bandera británica)
+  ctx.fillStyle = "#FFF";
+  ctx.fillRect(0, 0, 120, 70);
+
+  // Cruz roja horizontal y vertical
+  ctx.fillStyle = "#C8102E";
+  ctx.fillRect(45, 0, 30, 70); // barra vertical
+  ctx.fillRect(0, 25, 120, 20); // barra horizontal
+
+  // Estrella blanca grande
+  ctx.beginPath();
+  ctx.arc(220, 90, 15, 0, 2 * Math.PI);
+  ctx.fillStyle = "#FFF";
+  ctx.fill();
+
+  // Estrellas pequeñas
+  const estrellas = [
+    [260, 40, 5],
+    [270, 70, 5],
+    [240, 60, 5],
+    [250, 120, 5],
+    [270, 140, 5]
+  ];
+  ctx.fillStyle = "#FFF";
+  estrellas.forEach(([x, y, r]) => {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, 2 * Math.PI);
+    ctx.fill();
+  });
+});
+
+
+    // Uzbekistán
+crearBandera("Uzbekistán", (ctx) => {
+  const w = 300, h = 180;
+
+  // Franja azul superior
+  ctx.fillStyle = "#0099B5";
+  ctx.fillRect(0, 0, w, 45);
+
+  // Línea roja separadora superior
+  ctx.fillStyle = "#CE1126";
+  ctx.fillRect(0, 45, w, 5);
+
+  // Franja blanca central
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 50, w, 80);
+
+  // Línea roja separadora inferior
+  ctx.fillStyle = "#CE1126";
+  ctx.fillRect(0, 130, w, 5);
+
+  // Franja verde inferior
+  ctx.fillStyle = "#1EB53A";
+  ctx.fillRect(0, 135, w, 45);
+
+  // Media luna blanca
+  ctx.beginPath();
+  ctx.arc(40, 22, 12, 0, 2 * Math.PI);
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(45, 22, 9, 0, 2 * Math.PI);
+  ctx.fillStyle = "#0099B5";
+  ctx.fill();
+
+  // Estrellas (simplificadas)
+  ctx.fillStyle = "#FFFFFF";
+  const stars = [
+    [70, 10], [85, 10], [100, 10],
+    [77, 25], [92, 25], [107, 25]
+  ];
+  stars.forEach(([x, y]) => {
+    ctx.beginPath();
+    ctx.arc(x, y, 2, 0, 2 * Math.PI);
+    ctx.fill();
+  });
+});
+
+
+// 🇳🇦 Namibia
+crearBandera("Namibia", (ctx) => {
+  const w = 300, h = 180;
+
+  // Fondo azul
+  ctx.fillStyle = "#003580";
+  ctx.fillRect(0, 0, w, h);
+
+  // Triángulo verde inferior derecho
+  ctx.beginPath();
+  ctx.moveTo(0, h);
+  ctx.lineTo(w, 0);
+  ctx.lineTo(w, h);
+  ctx.closePath();
+  ctx.fillStyle = "#009543";
+  ctx.fill();
+
+  // Franja diagonal blanca (inferior borde)
+  ctx.beginPath();
+  ctx.moveTo(-10, h);
+  ctx.lineTo(w, -10);
+  ctx.lineTo(w + 10, 0);
+  ctx.lineTo(0, h + 10);
+  ctx.closePath();
+  ctx.fillStyle = "white";
+  ctx.fill();
+
+  // Franja diagonal roja (centro)
+  ctx.beginPath();
+  ctx.moveTo(-5, h);
+  ctx.lineTo(w, -5);
+  ctx.lineTo(w + 5, 0);
+  ctx.lineTo(0, h + 5);
+  ctx.closePath();
+  ctx.fillStyle = "#D21034";
+  ctx.fill();
+
+  // Franja diagonal blanca (superior borde)
+  ctx.beginPath();
+  ctx.moveTo(0, h + 5);
+  ctx.lineTo(w + 5, 0);
+  ctx.lineTo(w + 15, 0);
+  ctx.lineTo(5, h + 15);
+  ctx.closePath();
+  ctx.fillStyle = "white";
+  ctx.fill();
+
+  // Sol amarillo con rayos
+  const cx = 45, cy = 45, r = 20;
+
+  // Círculo central
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fillStyle = "#FFD100";
+  ctx.fill();
+
+  // Rayos del sol
+  for (let i = 0; i < 12; i++) {
+    const angle = (i * Math.PI) / 6;
+    const x1 = cx + Math.cos(angle) * (r + 3);
+    const y1 = cy + Math.sin(angle) * (r + 3);
+    const x2 = cx + Math.cos(angle) * (r + 10);
+    const y2 = cy + Math.sin(angle) * (r + 10);
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = "#FFD100";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  }
+});
+
+
+    // Níger
+crearBandera("Níger", (ctx) => {
+  const w = 300, h = 180;
+
+  // Franja superior naranja
+  ctx.fillStyle = "#E15307";
+  ctx.fillRect(0, 0, w, 60);
+
+  // Franja central blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 60, w, 60);
+
+  // Franja inferior verde
+  ctx.fillStyle = "#10AF2A";
+  ctx.fillRect(0, 120, w, 60);
+
+  // Círculo naranja central
+  ctx.beginPath();
+  ctx.arc(w / 2, h / 2, 15, 0, 2 * Math.PI);
+  ctx.fillStyle = "#E15307";
+  ctx.fill();
+});
+
+
+    // Sudán del Sur
+crearBandera("Sudán del Sur", (ctx) => {
+  const w = 300, h = 180;
+  const stripeHeight = h / 5;
+
+  // Franja negra
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(0, 0, w, stripeHeight);
+
+  // Franja blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, stripeHeight, w, stripeHeight);
+
+  // Franja roja
+  ctx.fillStyle = "#D21034";
+  ctx.fillRect(0, stripeHeight * 2, w, stripeHeight);
+
+  // Franja blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, stripeHeight * 3, w, stripeHeight);
+
+  // Franja verde
+  ctx.fillStyle = "#078930";
+  ctx.fillRect(0, stripeHeight * 4, w, stripeHeight);
+
+  // Triángulo azul del lado izquierdo
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(120, 90);
+  ctx.lineTo(0, 180);
+  ctx.closePath();
+  ctx.fillStyle = "#0F47AF";
+  ctx.fill();
+
+  // Estrella amarilla dentro del triángulo
+  const cx = 45, cy = 90, r = 18;
+  ctx.fillStyle = "#FFD700";
+  ctx.beginPath();
+  for (let i = 0; i < 5; i++) {
+    const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fill();
+});
+
+
+ // Burundi
+crearBandera("Burundi", (ctx) => {
+  const w = 300, h = 180;
+
+  // Fondo rojo completo
+  ctx.fillStyle = "#CE1126";
+  ctx.fillRect(0, 0, w, h);
+
+  // Triángulos verdes (superior e inferior)
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(w / 2, h / 2);
+  ctx.lineTo(w, 0);
+  ctx.closePath();
+  ctx.fillStyle = "#1EB53A";
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(0, h);
+  ctx.lineTo(w / 2, h / 2);
+  ctx.lineTo(w, h);
+  ctx.closePath();
+  ctx.fillStyle = "#1EB53A";
+  ctx.fill();
+
+  // Cruz diagonal blanca
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(w, h);
+  ctx.moveTo(w, 0);
+  ctx.lineTo(0, h);
+  ctx.strokeStyle = "#FFFFFF";
+  ctx.lineWidth = 35;
+  ctx.stroke();
+
+  // Círculo blanco central
+  ctx.beginPath();
+  ctx.arc(w / 2, h / 2, 35, 0, 2 * Math.PI);
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fill();
+
+  // Función para dibujar una estrella de seis puntas
+  function dibujarEstrella(x, y, r, color) {
+    ctx.beginPath();
+    for (let i = 0; i < 6; i++) {
+      const angle = (i * Math.PI) / 3;
+      const x1 = x + r * Math.cos(angle);
+      const y1 = y + r * Math.sin(angle);
+      if (i === 0) ctx.moveTo(x1, y1);
+      else ctx.lineTo(x1, y1);
+    }
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  // Tres estrellas rojas dentro del círculo
+  const cx = w / 2, cy = h / 2;
+  dibujarEstrella(cx, cy - 15, 8, "#CE1126");
+  dibujarEstrella(cx - 15, cy + 10, 8, "#CE1126");
+  dibujarEstrella(cx + 15, cy + 10, 8, "#CE1126");
+});
+
+
+    // 🇯🇴 Jordania
+crearBandera("Jordania", (ctx) => {
+  // --- Franjas horizontales ---
+  // Negra (superior)
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, 300, 60);
+
+  // Blanca (central)
+  ctx.fillStyle = "#FFF";
+  ctx.fillRect(0, 60, 300, 60);
+
+  // Verde (inferior)
+  ctx.fillStyle = "#007A3D";
+  ctx.fillRect(0, 120, 300, 60);
+
+  // --- Triángulo rojo izquierdo ---
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(120, 90);
+  ctx.lineTo(0, 180);
+  ctx.closePath();
+  ctx.fillStyle = "#CE1126";
+  ctx.fill();
+
+  // --- Estrella blanca de 7 puntas ---
+  ctx.save();
+  ctx.translate(50, 90); // centro de la estrella dentro del triángulo
+  ctx.fillStyle = "#FFF";
+  ctx.beginPath();
+  for (let i = 0; i < 14; i++) {
+    const angle = (Math.PI / 7) * i;
+    const r = i % 2 === 0 ? 12 : 5; // alternar puntas largas y cortas
+    ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+});
+
+
+    // Papúa Nueva Guinea
+crearBandera("Papúa Nueva Guinea", (ctx) => {
+  // --- Triángulo negro (inferior izquierdo) ---
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(300, 180);
+  ctx.lineTo(0, 180);
+  ctx.closePath();
+  ctx.fillStyle = "#000";
+  ctx.fill();
+
+  // --- Triángulo rojo (superior derecho) ---
+  ctx.beginPath();
+  ctx.moveTo(300, 0);
+  ctx.lineTo(300, 180);
+  ctx.lineTo(0, 0);
+  ctx.closePath();
+  ctx.fillStyle = "#D21034";
+  ctx.fill();
+
+  // --- Estrellas blancas (constelación del Cruz del Sur) ---
+  const estrellas = [
+    [40, 130, 6],
+    [70, 80, 5],
+    [100, 150, 4],
+    [120, 110, 3],
+    [60, 40, 4],
+  ];
+  ctx.fillStyle = "#FFF";
+  estrellas.forEach(([x, y, r]) => {
+    ctx.beginPath();
+    for (let i = 0; i < 10; i++) {
+      const ang = (Math.PI / 5) * i;
+      const rad = i % 2 === 0 ? r : r / 2;
+      ctx.lineTo(x + Math.cos(ang) * rad, y + Math.sin(ang) * rad);
+    }
+    ctx.closePath();
+    ctx.fill();
+  });
+
+  // --- Ave del paraíso amarilla (simplificada) ---
+  ctx.beginPath();
+  ctx.arc(220, 70, 15, 0, Math.PI * 2); // cabeza
+  ctx.moveTo(220, 70);
+  ctx.lineTo(250, 50); // pico
+  ctx.moveTo(220, 70);
+  ctx.quadraticCurveTo(260, 90, 230, 120); // cuerpo y cola curva
+  ctx.strokeStyle = "#FFD100";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+});
+
+    // Zambia
+crearBandera("Zambia", (ctx) => {
+  // --- Fondo verde ---
+  ctx.fillStyle = "#198A00";
+  ctx.fillRect(0, 0, 300, 180);
+
+  // --- Franja naranja (izquierda del conjunto de colores) ---
+  ctx.fillStyle = "#EF7D00";
+  ctx.fillRect(240, 100, 20, 80);
+
+  // --- Franja roja ---
+  ctx.fillStyle = "#DE2010";
+  ctx.fillRect(260, 100, 20, 80);
+
+  // --- Franja negra ---
+  ctx.fillStyle = "#000";
+  ctx.fillRect(280, 100, 20, 80);
+
+  // --- Águila amarilla (simplificada arriba de las franjas) ---
+  ctx.beginPath();
+  ctx.moveTo(260, 80);
+  ctx.quadraticCurveTo(275, 60, 290, 80);
+  ctx.quadraticCurveTo(275, 70, 260, 80);
+  ctx.fillStyle = "#F7B718";
+  ctx.fill();
+});
+
+    // Bulgaria
+crearBandera("Bulgaria", (ctx) => {
+  const w = 300, h = 180;
+  const stripeHeight = h / 3;
+
+  // Franja superior blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 0, w, stripeHeight);
+
+  // Franja central verde
+  ctx.fillStyle = "#00966E";
+  ctx.fillRect(0, stripeHeight, w, stripeHeight);
+
+  // Franja inferior roja
+  ctx.fillStyle = "#D62612";
+  ctx.fillRect(0, 2 * stripeHeight, w, stripeHeight);
+});
+
+
+    // Gambia
+crearBandera("Gambia", (ctx) => {
+  const w = 300, h = 180;
+
+  // Franja superior roja
+  ctx.fillStyle = "#CE1126";
+  ctx.fillRect(0, 0, w, 60);
+
+  // Franja blanca delgada
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 60, w, 10);
+
+  // Franja azul central
+  ctx.fillStyle = "#0C1C8C";
+  ctx.fillRect(0, 70, w, 40);
+
+  // Segunda franja blanca delgada
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 110, w, 10);
+
+  // Franja inferior verde
+  ctx.fillStyle = "#3A7728";
+  ctx.fillRect(0, 120, w, 60);
+});
+
+
+    // Madagascar
+crearBandera("Madagascar", (ctx) => {
+  const w = 300, h = 180;
+
+  // Franja blanca vertical (lado del asta)
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 0, w / 3, h);
+
+  // Franja superior roja (a la derecha)
+  ctx.fillStyle = "#FC3D32";
+  ctx.fillRect(w / 3, 0, (2 * w) / 3, h / 2);
+
+  // Franja inferior verde (a la derecha)
+  ctx.fillStyle = "#007E3A";
+  ctx.fillRect(w / 3, h / 2, (2 * w) / 3, h / 2);
+});
+
+
+    // Chile
+crearBandera("Chile", (ctx) => {
+  const w = 300, h = 180;
+
+  // Franja superior blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 0, w, h / 2);
+
+  // Franja inferior roja
+  ctx.fillStyle = "#D52B1E";
+  ctx.fillRect(0, h / 2, w, h / 2);
+
+  // Cuadro azul en la esquina superior izquierda
+  ctx.fillStyle = "#0033A0";
+  ctx.fillRect(0, 0, w / 3, h / 2);
+
+  // Estrella blanca de cinco puntas
+  const cx = w / 6;    // centro x
+  const cy = h / 4;    // centro y
+  const outerR = 18;   // radio exterior
+  const innerR = 7.5;  // radio interior
+
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const angle = Math.PI / 2 + i * Math.PI / 5;
+    const r = i % 2 === 0 ? outerR : innerR;
+    const x = cx + r * Math.cos(angle);
+    const y = cy - r * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fill();
+});
+
+
+
+    // Cabo Verde
+crearBandera("Cabo Verde", (ctx) => {
+  const w = 300, h = 180;
+
+  // Fondo azul oscuro
+  ctx.fillStyle = "#003893";
+  ctx.fillRect(0, 0, w, h);
+
+  // Franja blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, h * 0.45, w, h * 0.11);
+
+  // Franja roja
+  ctx.fillStyle = "#CF2027";
+  ctx.fillRect(0, h * 0.56, w, h * 0.11);
+
+  // 10 estrellas amarillas (círculo)
+  const cx = w * 0.35, cy = h * 0.55, r = 35;
+  ctx.fillStyle = "#F7D116";
+  for (let i = 0; i < 10; i++) {
+    const angle = (i * 2 * Math.PI) / 10;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+});
+
+    // Alemania
+crearBandera("Alemania", (ctx) => {
+  const w = 300, h = 180;
+  const stripeHeight = h / 3;
+
+  // Franja superior negra
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(0, 0, w, stripeHeight);
+
+  // Franja central roja
+  ctx.fillStyle = "#DD0000";
+  ctx.fillRect(0, stripeHeight, w, stripeHeight);
+
+  // Franja inferior amarilla
+  ctx.fillStyle = "#FFCE00";
+  ctx.fillRect(0, 2 * stripeHeight, w, stripeHeight);
+});
+
+
+    // 🇨🇻 Cabo Verde
+crearBandera("Cabo Verde", (ctx) => {
+  ctx.fillStyle = "#003893"; ctx.fillRect(0, 0, 300, 180);
+  ctx.fillStyle = "#FFF"; ctx.fillRect(0, 80, 300, 20);
+  ctx.fillStyle = "#CF2027"; ctx.fillRect(0, 100, 300, 20);
+});
+
+// 🇩🇪 Alemania
+crearBandera("Alemania", (ctx) => {
+  ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 300, 60);
+  ctx.fillStyle = "#DD0000"; ctx.fillRect(0, 60, 300, 60);
+  ctx.fillStyle = "#FFCE00"; ctx.fillRect(0, 120, 300, 60);
+});
+
+// 🇨🇺 Cuba
+crearBandera("Cuba", (ctx) => {
+  ctx.fillStyle = "#002A8F";
+  for (let i = 0; i < 5; i += 2)
+    ctx.fillRect(0, i * 36, 300, 36);
+  ctx.fillStyle = "#FFF";
+  for (let i = 1; i < 5; i += 2)
+    ctx.fillRect(0, i * 36, 300, 36);
+  ctx.beginPath();
+  ctx.moveTo(0, 0); ctx.lineTo(120, 90); ctx.lineTo(0, 180); ctx.closePath();
+  ctx.fillStyle = "#CF142B"; ctx.fill();
+});
+
+
+    // 🇨🇻 Cabo Verde
+crearBandera("Cabo Verde", (ctx) => {
+  ctx.fillStyle = "#003893"; ctx.fillRect(0, 0, 300, 180);
+  ctx.fillStyle = "#FFF"; ctx.fillRect(0, 80, 300, 20);
+  ctx.fillStyle = "#CF2027"; ctx.fillRect(0, 100, 300, 20);
+});
+
+// 🇩🇪 Alemania
+crearBandera("Alemania", (ctx) => {
+  ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 300, 60);
+  ctx.fillStyle = "#DD0000"; ctx.fillRect(0, 60, 300, 60);
+  ctx.fillStyle = "#FFCE00"; ctx.fillRect(0, 120, 300, 60);
+});
+
+// 🇨🇺 Cuba
+crearBandera("Cuba", (ctx) => {
+  ctx.fillStyle = "#002A8F";
+  for (let i = 0; i < 5; i += 2)
+    ctx.fillRect(0, i * 36, 300, 36);
+  ctx.fillStyle = "#FFF";
+  for (let i = 1; i < 5; i += 2)
+    ctx.fillRect(0, i * 36, 300, 36);
+  ctx.beginPath();
+  ctx.moveTo(0, 0); ctx.lineTo(120, 90); ctx.lineTo(0, 180); ctx.closePath();
+  ctx.fillStyle = "#CF142B"; ctx.fill();
+});
+
+// 🇧🇪 Bélgica
+crearBandera("Bélgica", (ctx) => {
+  ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 100, 180);
+  ctx.fillStyle = "#FFD90C"; ctx.fillRect(100, 0, 100, 180);
+  ctx.fillStyle = "#EF3340"; ctx.fillRect(200, 0, 100, 180);
+});
+
+
+    // 🇱🇦 Laos
+crearBandera("Laos", (ctx) => {
+  // Franja roja superior
+  ctx.fillStyle = "#CE1126";
+  ctx.fillRect(0, 0, 300, 45);
+
+  // Franja azul central
+  ctx.fillStyle = "#002868";
+  ctx.fillRect(0, 45, 300, 90);
+
+  // Franja roja inferior
+  ctx.fillStyle = "#CE1126";
+  ctx.fillRect(0, 135, 300, 45);
+
+  // Círculo blanco en el centro
+  ctx.beginPath();
+  ctx.arc(150, 90, 25, 0, 2 * Math.PI);
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fill();
+});
+
+    // 🇩🇿 Argelia
+crearBandera("Argelia", (ctx) => {
+  const w = 300, h = 180;
+
+  // Mitad izquierda blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, 0, w / 2, h);
+
+  // Mitad derecha verde
+  ctx.fillStyle = "#006233";
+  ctx.fillRect(w / 2, 0, w / 2, h);
+
+  // Media luna roja
+  ctx.beginPath();
+  ctx.arc(w / 2, h / 2, 40, 0, 2 * Math.PI);
+  ctx.fillStyle = "#D21034";
+  ctx.fill();
+
+  ctx.globalCompositeOperation = "destination-out"; // recorta
+  ctx.beginPath();
+  ctx.arc(w / 2 + 10, h / 2, 30, 0, 2 * Math.PI);
+  ctx.fill();
+  ctx.globalCompositeOperation = "source-over"; // vuelve a normal
+
+  // Estrella roja de cinco puntas
+  const cx = w / 2 + 5, cy = h / 2;
+  const outer = 10, inner = 4;
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const r = i % 2 === 0 ? outer : inner;
+    const angle = (Math.PI / 2) + (i * Math.PI / 5);
+    const x = cx + r * Math.cos(angle);
+    const y = cy - r * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = "#D21034";
+  ctx.fill();
+});
+
+    // 🇳🇴 Noruega
+crearBandera("Noruega", (ctx) => {
+  const w = 300, h = 180;
+
+  // Fondo rojo
+  ctx.fillStyle = "#BA0C2F";
+  ctx.fillRect(0, 0, w, h);
+
+  // Cruz blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, h * 0.4 - 15, w, 30); // horizontal
+  ctx.fillRect(w * 0.23 - 15, 0, 30, h); // vertical
+
+  // Cruz azul (más delgada, centrada sobre la blanca)
+  ctx.fillStyle = "#00205B";
+  ctx.fillRect(0, h * 0.4 - 7.5, w, 15); // horizontal
+  ctx.fillRect(w * 0.23 - 7.5, 0, 15, h); // vertical
+});
+
+
+   // 🇺🇦 Ucrania
+crearBandera("Ucrania", (ctx) => {
+  const w = 300, h = 180;
+
+  // Franja superior azul
+  ctx.fillStyle = "#0057B7";
+  ctx.fillRect(0, 0, w, h / 2);
+
+  // Franja inferior amarilla
+  ctx.fillStyle = "#FFD700";
+  ctx.fillRect(0, h / 2, w, h / 2);
+});
+
+
+    // 🇪🇪 Estonia
+crearBandera("Estonia", (ctx) => {
+  const w = 300, h = 180;
+
+  // Franja superior azul
+  ctx.fillStyle = "#0072CE";
+  ctx.fillRect(0, 0, w, h / 3);
+
+  // Franja central negra
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(0, h / 3, w, h / 3);
+
+  // Franja inferior blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(0, (2 * h) / 3, w, h / 3);
+});
+
+
+    // 🇧🇴 Bolivia
+crearBandera("Bolivia", (ctx) => {
+  const w = 300, h = 180;
+
+  // Franja superior roja
+  ctx.fillStyle = "#D52B1E";
+  ctx.fillRect(0, 0, w, h / 3);
+
+  // Franja central amarilla
+  ctx.fillStyle = "#FFD90C";
+  ctx.fillRect(0, h / 3, w, h / 3);
+
+  // Franja inferior verde
+  ctx.fillStyle = "#007934";
+  ctx.fillRect(0, (2 * h) / 3, w, h / 3);
+});
+
+   // 🇴🇲 Omán
+crearBandera("Omán", (ctx) => {
+  const w = 300, h = 180;
+
+  // Franja vertical roja a la izquierda
+  ctx.fillStyle = "#D21034";
+  ctx.fillRect(0, 0, w * 0.25, h);
+
+  // Franja superior blanca
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(w * 0.25, 0, w * 0.75, h / 3);
+
+  // Franja central roja
+  ctx.fillStyle = "#D21034";
+  ctx.fillRect(w * 0.25, h / 3, w * 0.75, h / 3);
+
+  // Franja inferior verde
+  ctx.fillStyle = "#007A3D";
+  ctx.fillRect(w * 0.25, (2 * h) / 3, w * 0.75, h / 3);
+});
+
+
+  // 🇰🇮 Kiribati (versión con imagen real)
+crearBandera("Kiribati", (ctx) => {
+  const w = 300, h = 180;
+  const img = new Image();
+  img.src = "https://flagcdn.com/w320/ki.png"; // Imagen oficial de la bandera
+
+  img.onload = () => {
+    ctx.drawImage(img, 0, 0, w, h);
+  };
+});
+
+  </script>
+</body>
+</html>

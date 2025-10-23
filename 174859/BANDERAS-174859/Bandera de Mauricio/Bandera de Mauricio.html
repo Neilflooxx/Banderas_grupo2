@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bandera de Mauricio</title>
+  <style>
+    body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#0b0f15;color:#eaf0ff;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    h1{margin:0;font-size:28px;font-weight:800}
+    canvas{background:#101726;border:2px solid #243146;border-radius:12px;display:block}
+  </style>
+</head>
+<body>
+  <h1>Bandera de Mauricio</h1>
+  <canvas id="lienzo" width="550" height="300"></canvas>
+  <script>
+    const lienzo=document.getElementById("lienzo");
+    const ctx=lienzo.getContext("2d");
+    const W=lienzo.width,H=lienzo.height;
+    const rojo="#EA2839", azul="#1A206D", amarillo="#FFD100", verde="#00A551";
+    const franja=H/4;
+    ctx.fillStyle=rojo;     ctx.fillRect(0,0,W,franja);
+    ctx.fillStyle=azul;     ctx.fillRect(0,franja,W,franja);
+    ctx.fillStyle=amarillo; ctx.fillRect(0,franja*2,W,franja);
+    ctx.fillStyle=verde;    ctx.fillRect(0,franja*3,W,franja);
+  </script>
+</body>
+</html>

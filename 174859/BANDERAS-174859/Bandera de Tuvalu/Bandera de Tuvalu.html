@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Bandera de Tuvalu</title>
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  background:#0b0f15;
+  color:#eaf0ff;
+  font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
+}
+h1{margin:0;font-size:28px;font-weight:800}
+canvas{
+  background:#101726;
+  border:2px solid #243146;
+  border-radius:12px;
+  display:block;
+}
+</style>
+</head>
+<body>
+<h1>Bandera de Tuvalu</h1>
+<canvas id="lienzo"></canvas>
+<script>
+const ESCALA=0.8;
+const lienzo=document.getElementById("lienzo");
+const ANCHO=800*ESCALA,ALTO=400*ESCALA;
+lienzo.width=ANCHO;
+lienzo.height=ALTO;
+const ctx=lienzo.getContext("2d");
+const azulCielo="#1C8BCB",azulUnion="#012169",rojo="#C8102E",blanco="#FFFFFF",amarillo="#FFCE00";
+ctx.fillStyle=azulCielo;
+ctx.fillRect(0,0,ANCHO,ALTO);
+const anchoUnion=ANCHO*0.5,altoUnion=ALTO*0.5;
+ctx.save();
+ctx.beginPath();
+ctx.rect(0,0,anchoUnion,altoUnion);
+ctx.clip();
+ctx.fillStyle=azulUnion;
+ctx.fillRect(0,0,anchoUnion,altoUnion);
+ctx.strokeStyle=blanco;
+ctx.lineWidth=60*ESCALA;
+ctx.beginPath();
+ctx.moveTo(0,0);
+ctx.lineTo(anchoUnion,altoUnion);
+ctx.moveTo(anchoUnion,0);
+ctx.lineTo(0,altoUnion);
+ctx.stroke();
+ctx.strokeStyle=rojo;
+ctx.lineWidth=36*ESCALA;
+ctx.beginPath();
+ctx.moveTo(0,0);
+ctx.lineTo(anchoUnion,altoUnion);
+ctx.moveTo(anchoUnion,0);
+ctx.lineTo(0,altoUnion);
+ctx.stroke();
+ctx.fillStyle=blanco;
+ctx.fillRect(anchoUnion/2-50*ESCALA,0,100*ESCALA,altoUnion);
+ctx.fillRect(0,altoUnion/2-50*ESCALA,anchoUnion,100*ESCALA);
+ctx.fillStyle=rojo;
+ctx.fillRect(anchoUnion/2-30*ESCALA,0,60*ESCALA,altoUnion);
+ctx.fillRect(0,altoUnion/2-30*ESCALA,anchoUnion,60*ESCALA);
+ctx.restore();
+function dibujarEstrella(x,y,radio,color,rotacionGrados=0){
+  const rotacion=(rotacionGrados*Math.PI/180)-Math.PI/2;
+  ctx.fillStyle=color;
+  ctx.beginPath();
+  for(let i=0;i<5;i++){
+    const angulo=rotacion+i*4*Math.PI/5;
+    const px=x+Math.cos(angulo)*radio;
+    const py=y+Math.sin(angulo)*radio;
+    if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+const estrellas=[
+{x:0.515,y:0.862,tamaño:0.09,rotacion:0},
+{x:0.644,y:0.777,tamaño:0.08,rotacion:-20},
+{x:0.642,y:0.569,tamaño:0.08,rotacion:-26},
+{x:0.762,y:0.742,tamaño:0.08,rotacion:-18},
+{x:0.85,y:0.587,tamaño:0.08,rotacion:0},
+{x:0.714,y:0.365,tamaño:0.08,rotacion:-40},
+{x:0.818,y:0.294,tamaño:0.08,rotacion:-28},
+{x:0.94,y:0.495,tamaño:0.08,rotacion:0},
+{x:0.921,y:0.167,tamaño:0.08,rotacion:0}
+];
+estrellas.forEach(e=>dibujarEstrella(ANCHO*e.x,ALTO*e.y,ALTO*e.tamaño,amarillo,e.rotacion));
+</script>
+</body>
+</html>

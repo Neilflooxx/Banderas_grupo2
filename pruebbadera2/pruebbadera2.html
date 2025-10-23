@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banderas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            /* Estilo de fondo profesional */
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .flag-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .flag-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        
+        .flag-card h2 {
+            color: #182848;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .flag-emoji {
+            font-size: 1.8rem;
+        }
+        
+        canvas {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1.5; /* Relación de aspecto común (3:2) */
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: block;
+            background-color: #f0f0f0; /* Fondo para banderas irregulares como Nepal */
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Banderas de Paises</h1>
+        <p class="subtitle"></p>
+        
+        <div class="grid">
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Portugal</h2>
+                <canvas id="portugal" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Paraguay</h2>
+                <canvas id="paraguay" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Moldavia</h2>
+                <canvas id="moldavia" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Azerbaiyán</h2>
+                <canvas id="azerbaijan" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Belice</h2>
+                <canvas id="belize" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Granada</h2>
+                <canvas id="granada" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Sri Lanka</h2>
+                <canvas id="srilanka" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Turkmenistán</h2>
+                <canvas id="turkmenistan" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Antigua y Barbuda</h2>
+                <canvas id="antigua" width="600" height="400"></canvas>
+            </div>
+            
+            <div class="flag-card">
+                <h2><span class="flag-emoji"></span> Nepal</h2>
+                <canvas id="nepal" width="600" height="400"></canvas>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script>
+        
+        // --- FUNCIÓN DE DIBUJO BASE ---
+        
+        /**
+         * Dibuja una estrella de 5 puntas. Usada en Paraguay, Azerbaiyán, etc.
+         */
+        function drawStar(ctx, cx, cy, outerRadius, innerRadius = outerRadius * 0.4) {
+    ctx.beginPath();
+    let rot = Math.PI / 2 * 3;
+    let x = cx;
+    let y = cy;
+    let step = Math.PI / 5;
+
+    for (let i = 0; i < 5; i++) {
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    // === AGREGAR IMAGEN SOBRE LA ESTRELLA ===
+    const img = new Image();
+    img.src = ''; // asegúrate que esta imagen esté en la misma carpeta
+
+    img.onload = function () {
+        const size = outerRadius * 1.5; // tamaño proporcional al radio
+        ctx.drawImage(
+            img,
+            cx - size / 2,
+            cy - size / 2,
+            size,
+            size
+        );
+    };
+}
+
+        
+        // --- FUNCIONES DE LAS 10 BANDERAS SOLICITADAS ---
+        
+        // 1. PORTUGAL 
+        function drawPortugal() {
+      const canvas = document.getElementById('portugal');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // === BANDERA DE PORTUGAL ===
+      // Verde (2/5 del ancho)
+      ctx.fillStyle = '#006600';
+      ctx.fillRect(0, 0, w * (2 / 5), h);
+
+      // Rojo (3/5 del ancho)
+      ctx.fillStyle = '#FF0000';
+      ctx.fillRect(w * (2 / 5), 0, w * (3 / 5), h);
+
+      // === ESCUDO CON IMAGEN PNG ===
+      const cx = w * (2 / 5); // centro del escudo
+      const cy = h / 2;
+      const escudoSize = h * 0.36; // tamaño del escudo
+
+      const img = new Image();
+      img.src = 'portugal.png'; // asegúrate que esta imagen esté en la misma carpeta
+
+      img.onload = function () {
+        ctx.drawImage(
+          img,
+          cx - escudoSize / 2,
+          cy - escudoSize / 2,
+          escudoSize,
+          escudoSize
+        );
+      };
+    }
+
+        
+        // 2. PARAGUAY (Relación 1:2 - Emblema simplificado)
+        function drawParaguay() {
+            const canvas = document.getElementById('paraguay');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const stripeH = h / 3;
+            
+            ctx.fillStyle = '#D52B1E';
+            ctx.fillRect(0, 0, w, stripeH);
+            
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, stripeH, w, stripeH);
+            
+            ctx.fillStyle = '#003F87';
+            ctx.fillRect(0, stripeH * 2, w, stripeH);
+            
+            // Simplified Emblem
+            const cx = w / 2;
+            const cy = h / 2;
+            const radius = h * 0.12;
+            
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            
+            // Circle border
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Lion/Star inside (Star simplification)
+            ctx.fillStyle = '#FCD116';
+            drawStar(ctx, cx, cy, radius * 0.6);
+        }
+        
+        // 3. MOLDAVIA (Relación 1:2 - Emblema simplificado)
+        function drawMoldavia() {
+      const canvas = document.getElementById('moldavia');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const stripeW = w / 3;
+
+      // === BANDERA DE MOLDAVIA ===
+      ctx.fillStyle = '#0033CC'; // Azul
+      ctx.fillRect(0, 0, stripeW, h);
+
+      ctx.fillStyle = '#FFD700'; // Amarillo
+      ctx.fillRect(stripeW, 0, stripeW, h);
+
+      ctx.fillStyle = '#D52B1E'; // Rojo
+      ctx.fillRect(stripeW * 2, 0, stripeW, h);
+
+      // === ESCUDO CON IMAGEN PNG ===
+      const cx = w / 2;
+      const cy = h / 2;
+      const escudoSize = h * 0.3; // tamaño del escudo
+
+      const img = new Image();
+      img.src = 'moldavia.png'; // asegúrate que esta imagen esté en la misma carpeta
+
+      img.onload = function () {
+        ctx.drawImage(
+          img,
+          cx - escudoSize / 2,
+          cy - escudoSize / 2,
+          escudoSize,
+          escudoSize
+        );
+      };
+    }
+
+
+        
+        // 4. AZERBAIYÁN (Relación 1:2 - Crescent & Star simplificado)
+        function drawAzerbaijan() {
+            const canvas = document.getElementById('azerbaijan');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const stripeH = h / 3;
+            
+            ctx.fillStyle = '#0099FF';
+            ctx.fillRect(0, 0, w, stripeH);
+            
+            ctx.fillStyle = '#D52B1E';
+            ctx.fillRect(0, stripeH, w, stripeH);
+            
+            ctx.fillStyle = '#00AA00';
+            ctx.fillRect(0, stripeH * 2, w, stripeH);
+            
+            // White Crescent and Star (centered on red stripe)
+            const cx = w / 2;
+            const cy = h / 2;
+            const radius = h * 0.12;
+            
+            // Full white circle
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Overlap with red circle to create crescent
+            ctx.fillStyle = '#D52B1E';
+            ctx.beginPath();
+            ctx.arc(cx + radius * 0.3, cy, radius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Star (8 pointed, simplified to 5)
+            ctx.fillStyle = '#FFFFFF';
+            drawStar(ctx, cx - radius * 0.1, cy, radius * 0.5);
+        }
+        
+        // 5. BELICE 
+        function drawBelize() {
+        const canvas = document.getElementById('belize');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Blue Field
+      ctx.fillStyle = '#0033CC';
+      ctx.fillRect(0, 0, w, h);
+
+      // Red Stripes (Top and Bottom)
+      const redH = h * 0.08;
+      ctx.fillStyle = '#D52B1E';
+      ctx.fillRect(0, 0, w, redH);
+      ctx.fillRect(0, h - redH, w, redH);
+
+      // Central white disk
+      const cx = w / 2;
+      const cy = h / 2;
+      const radius = h * 0.25;
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // === ESCUDO CON IMAGEN PNG ===
+      const escudoSize = radius * 1.4; // ajustado para que encaje bien en el disco
+
+      const img = new Image();
+      img.src = 'belice.png'; // asegúrate que esta imagen esté en la misma carpeta
+
+      img.onload = function () {
+        ctx.drawImage(
+          img,
+          cx - escudoSize / 2,
+          cy - escudoSize / 2,
+          escudoSize,
+          escudoSize
+        );
+      };
+    }
+
+        
+        // 6. GRANADA (Relación 3:5 - Emblema simplificado)
+        function drawGranada() {
+            const canvas = document.getElementById('granada');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            
+            // Red Border (Outer)
+            ctx.fillStyle = '#D52B1E';
+            ctx.fillRect(0, 0, w, h);
+            
+            // Inner Green/Yellow field
+            const margin = h * 0.1;
+            
+            ctx.fillStyle = '#008800'; // Green
+            ctx.fillRect(margin, margin, w - 2 * margin, h - 2 * margin);
+            
+            // Yellow Triangles (simplified)
+            ctx.fillStyle = '#FFC400';
+            ctx.beginPath();
+            ctx.moveTo(margin, margin);
+            ctx.lineTo(w - margin, margin);
+            ctx.lineTo(w / 2, h / 2);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.moveTo(margin, h - margin);
+            ctx.lineTo(w - margin, h - margin);
+            ctx.lineTo(w / 2, h / 2);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Central Red Disk with Yellow Star (Simplified)
+            const cx = w / 2;
+            const cy = h / 2;
+            const centerRadius = h * 0.1;
+            
+            ctx.fillStyle = '#D52B1E';
+            ctx.beginPath();
+            ctx.arc(cx, cy, centerRadius * 1.2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#FFC400';
+            drawStar(ctx, cx, cy, centerRadius * 0.6);
+            
+            // Nutmeg symbol (left green triangle, simplified)
+            ctx.fillStyle = 'brown';
+            ctx.beginPath();
+            ctx.arc(margin + h * 0.1, cy, h * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        // 7. SRI LANKA (Relación 1:2 - León simplificado)
+        function drawSriLanka() {
+      const canvas = document.getElementById('srilanka');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Orange and Green stripes (left)
+      const stripeW = w * 0.15;
+      ctx.fillStyle = '#FF7F00';
+      ctx.fillRect(0, 0, stripeW, h);
+
+      ctx.fillStyle = '#008000';
+      ctx.fillRect(stripeW, 0, stripeW, h);
+
+      // Main Field (Right) with Gold Border
+      const fieldX = stripeW * 2;
+      const fieldW = w - fieldX;
+
+      // Maroon Field with Gold Border (simplification)
+      ctx.fillStyle = '#800000'; // Maroon
+      ctx.fillRect(fieldX, 0, fieldW, h);
+
+      // Gold Border effect
+      ctx.strokeStyle = '#FFC400';
+      ctx.lineWidth = h * 0.02;
+      ctx.strokeRect(fieldX + ctx.lineWidth / 2, ctx.lineWidth / 2, fieldW - ctx.lineWidth, h - ctx.lineWidth);
+
+      // === ESCUDO CON IMAGEN PNG ===
+      const cx = fieldX + fieldW / 2;
+      const cy = h / 2;
+      const escudoSize = h * 0.3;
+
+      const img = new Image();
+      img.src = 'leon.png'; // asegúrate que esta imagen esté en la misma carpeta
+
+      img.onload = function () {
+        ctx.drawImage(
+          img,
+          cx - escudoSize / 2,
+          cy - escudoSize / 2,
+          escudoSize,
+          escudoSize
+        );
+      };
+    }
+
+        
+        // 8. TURKMENISTÁN (Relación 2:3 - Emblema simplificado)
+        function drawTurkmenistan() {
+            const canvas = document.getElementById('turkmenistan');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            
+            // Green Field
+            ctx.fillStyle = '#009A00';
+            ctx.fillRect(0, 0, w, h);
+            
+            // Red Vertical Stripe (Carpet)
+            const stripeW = w * 0.25;
+            ctx.fillStyle = '#D52B1E';
+            ctx.fillRect(0, 0, stripeW, h);
+            
+            // Simplified Carpet pattern (White diamonds)
+            ctx.fillStyle = '#FFFFFF';
+            const diamondSize = h * 0.05;
+            for (let i = 1; i < 4; i++) {
+                ctx.beginPath();
+                ctx.moveTo(stripeW / 2, h * (i / 4));
+                ctx.lineTo(stripeW / 2 + diamondSize, h * (i / 4) + diamondSize);
+                ctx.lineTo(stripeW / 2, h * (i / 4) + 2 * diamondSize);
+                ctx.lineTo(stripeW / 2 - diamondSize, h * (i / 4) + diamondSize);
+                ctx.closePath();
+                ctx.fill();
+            }
+            
+            // Simplified Crescent and Stars (White)
+            const cx = stripeW + h * 0.2;
+            const cy = h * 0.2;
+            const radius = h * 0.1;
+            
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#009A00';
+            ctx.beginPath();
+            ctx.arc(cx + radius * 0.4, cy, radius, 0, Math.PI * 2);
+            ctx.fill(); 
+            ctx.fillStyle = '#FFFFFF';
+            drawStar(ctx, cx + radius * 1.5, cy, radius * 0.4);
+        }
+        
+        // 9. ANTIGUA Y BARBUDA 
+        function drawSun(ctx, cx, cy, radius, points = 8, innerRatio = 0.4) {
+            ctx.beginPath();
+            let rot = Math.PI / 2 * 3;
+            const step = Math.PI / points;
+            const innerRadius = radius * innerRatio;
+            
+            for (let i = 0; i < points; i++) {
+                // Outer point
+                let x = cx + Math.cos(rot) * radius;
+                let y = cy + Math.sin(rot) * radius;
+                ctx.lineTo(x, y);
+                rot += step;
+                
+                // Inner point
+                x = cx + Math.cos(rot) * innerRadius;
+                y = cy + Math.sin(rot) * innerRadius;
+                ctx.lineTo(x, y);
+                rot += step;
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        /**
+         * Dibuja la bandera de Antigua y Barbuda con la media estrella.
+         */
+        function drawAntiguaBarbuda() {
+            const canvas = document.getElementById('antigua');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            // --- Geometría de las franjas ---
+            const band1Y = h * (1/3); // Límite Negro/Azul
+            const band2Y = h * (2/3); // Límite Azul/Blanco
+
+            // --- 1. DIBUJAR LOS TRIÁNGULOS ROJOS ---
+            ctx.fillStyle = '#D52B1E'; 
+            
+            // Triángulo Rojo Izquierdo: (0, 0) -> (w/2, h) -> (0, h)
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(w / 2, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fill();
+
+            // Triángulo Rojo Derecho: (w, 0) -> (w/2, h) -> (w, h)
+            ctx.beginPath();
+            ctx.moveTo(w, 0);
+            ctx.lineTo(w / 2, h);
+            ctx.lineTo(w, h);
+            ctx.closePath();
+            ctx.fill();
+
+            // --- 2. DIBUJAR LAS FRANJAS CENTRALES (Trapezoides)
+            
+            // Franja Negra (y=0 hasta y=h/3)
+            ctx.fillStyle = '#000000'; 
+            ctx.beginPath();
+            ctx.moveTo(0, 0); 
+            ctx.lineTo(w, 0); 
+            ctx.lineTo(w - (w / 2) * (band1Y / h), band1Y); 
+            ctx.lineTo((w / 2) * (band1Y / h), band1Y); 
+            ctx.closePath();
+            ctx.fill();
+
+            // Franja Azul (y=h/3 hasta y=2h/3)
+            ctx.fillStyle = '#0072C6'; 
+            ctx.beginPath();
+            ctx.moveTo((w / 2) * (band1Y / h), band1Y); 
+            ctx.lineTo(w - (w / 2) * (band1Y / h), band1Y); 
+            ctx.lineTo(w - (w / 2) * (band2Y / h), band2Y); 
+            ctx.lineTo((w / 2) * (band2Y / h), band2Y); 
+            ctx.closePath();
+            ctx.fill();
+
+            // Franja Blanca (y=2h/3 hasta y=h)
+            ctx.fillStyle = '#FFFFFF'; 
+            ctx.beginPath();
+            ctx.moveTo((w / 2) * (band2Y / h), band2Y); 
+            ctx.lineTo(w - (w / 2) * (band2Y / h), band2Y); 
+            ctx.lineTo(w / 2, h); 
+            ctx.closePath();
+            ctx.fill();
+
+            
+            const sunCx = w / 2;
+            const sunCy = band1Y; // Centro en la línea Negro/Azul
+            const sunRadius = h * 0.2; 
+            
+            ctx.fillStyle = '#FCD116'; 
+
+            ctx.save();
+            
+            // DEFINIR el área de recorte: un rectángulo que cubre SOLO la mitad superior del sol
+            // Rectángulo: (x, y, width, height)
+            // Empieza en el borde izquierdo del sol (sunCx - sunRadius)
+            // En la parte superior del canvas (y=0)
+            // Y termina en el centro del sol (sunCy)
+            ctx.beginPath();
+            ctx.rect(sunCx - sunRadius, 0, sunRadius * 2, sunCy);
+            ctx.clip(); // Aplicar el recorte
+            
+            // DIBUJAR el sol completo. Solo se mostrará la parte dentro del área de recorte.
+            drawSun(ctx, sunCx, sunCy, sunRadius, 8); 
+
+            // RESTAURAR el estado del canvas para que el recorte no afecte a futuros dibujos
+            ctx.restore();
+        }
+        
+        // 10. NEPAL (Forma irregular)
+        function drawNepal() {
+            const canvas = document.getElementById('nepal');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            
+            // Since Nepal has an irregular shape, we draw it using relative coordinates and paths.
+            const scale = w / 100;
+            
+            // Blue Border
+            ctx.strokeStyle = '#0033CC';
+            ctx.lineWidth = 3 * scale;
+            
+            // Define the outer shape points (relative to 100x100)
+            const points = [
+                [0, 0], [100, 0], [100, 30], [80, 45],
+                [100, 60], [100, 100], [0, 100], [20, 45]
+            ];
+            
+            ctx.beginPath();
+            ctx.moveTo(points[0][0] * scale, points[0][1] * scale);
+            for(let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i][0] * scale, points[i][1] * scale);
+            }
+            ctx.closePath();
+            ctx.stroke();
+            
+            // Crimson Field (Inner)
+            ctx.fillStyle = '#DC143C';
+            const innerPoints = [
+                [3, 3], [97, 3], [97, 28], [80, 43],
+                [97, 58], [97, 97], [3, 97], [23, 43]
+            ]; // Slightly inside the border
+            ctx.beginPath();
+            ctx.moveTo(innerPoints[0][0] * scale, innerPoints[0][1] * scale);
+            for(let i = 1; i < innerPoints.length; i++) {
+                ctx.lineTo(innerPoints[i][0] * scale, innerPoints[i][1] * scale);
+            }
+            ctx.closePath();
+            ctx.fill();
+            
+            // Moon and Sun (White) - Simplified
+            ctx.fillStyle = '#FFFFFF';
+            
+            // Top Half-Moon
+            ctx.beginPath();
+            ctx.arc(w * 0.5, h * 0.35, h * 0.08, 0, Math.PI, true);
+            ctx.fill();
+            
+            // Bottom Sun
+            ctx.beginPath();
+            ctx.arc(w * 0.5, h * 0.75, h * 0.08, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        // --- INICIALIZACIÓN ---
+
+        window.onload = function() {
+            drawPortugal();
+            drawParaguay();
+            drawMoldavia();
+            drawAzerbaijan();
+            drawBelize();
+            drawGranada();
+            drawSriLanka();
+            drawTurkmenistan();
+            drawAntiguaBarbuda();
+            drawNepal();
+            
+            // Optional: Update subtitle
+        
+        };
+    </script>
+</body>
+</html>

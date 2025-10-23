@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Banderas del Mundo - Neil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding-top: 20px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="tituloPais">Cargando...</h1>
+    <canvas id="lienzoBandera"></canvas>
+
+    <script src="banderas.js"></script>
+
+    <script>
+
+        const anchoBandera = 450;
+        const altoBandera = 300;
+        
+        const paisADibujar = "Turquía";
+        
+        
+        // --- Lógica Principal (main) ---
+        window.onload = function() {
+            const canvas = document.getElementById('lienzoBandera');
+            const ctx = canvas.getContext('2d');
+            const tituloH1 = document.getElementById('tituloPais');
+
+            // Ajustamos el tamaño del lienzo
+            canvas.width = anchoBandera;
+            canvas.height = altoBandera;
+            tituloH1.innerText = paisADibujar;
+
+            // Preparamos el objeto de configuración
+            const config = {
+                ancho: canvas.width,
+                alto: canvas.height,
+                x: 0,
+                y: 0
+            };
+
+            // 1. Limpiar el lienzo
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, config.ancho, config.alto);
+
+            
+            dibujarBandera(ctx, config, paisADibujar);
+        };
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Bandera reencuadrada — Canvas</title>
+  <style>
+    html,body{height:100%;margin:0}
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#dcdcdc;
+      font-family:Arial, sans-serif;
+    }
+    canvas{display:block; background:#fff; box-shadow:0 6px 18px rgba(0,0,0,0.15);}
+  </style>
+</head>
+<body>
+  <canvas id="c" width="848" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+
+    // === Polígonos
+    const Poly1 = [      
+      [282,100],[280,358],[22,361],[22,431],[280,431],[282,692],
+      [355,692],[352,433],[839,433],[838,357],[354,356],[355,99]
+    ];
+
+    const Poly2 = [
+      [242,99],[243,319],[22,321],[21,470],[245,469],[243,693],
+      [392,693],[393,470],[838,467],[836,322],[393,319],[392,97]
+    ];
+
+   
+    function getBounds(polys){
+      const all = polys.flat();
+      const xs = all.map(p=>p[0]);
+      const ys = all.map(p=>p[1]);
+      return {
+        minX: Math.min(...xs),
+        maxX: Math.max(...xs),
+        minY: Math.min(...ys),
+        maxY: Math.max(...ys)
+      };
+    }
+
+
+    const bounds = getBounds([Poly1, Poly2]);
+    const contentW = bounds.maxX - bounds.minX;
+    const contentH = bounds.maxY - bounds.minY;
+    const margin = 0; 
+
+   
+    const scale = Math.min(
+      (canvas.width - margin*2) / contentW,
+      (canvas.height - margin*2) / contentH
+    );
+
+
+    const offsetX = (canvas.width - contentW * scale) / 2 - bounds.minX * scale;
+    const offsetY = (canvas.height - contentH * scale) / 2 - bounds.minY * scale;
+
+
+    ctx.fillStyle = '#333';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(margin/2, margin/2, canvas.width - margin, canvas.height - margin);
+
+  
+    function drawPolygon(points, fillStyle, strokeStyle, lineWidth=2){
+      ctx.beginPath();
+      const [x0,y0] = points[0];
+      ctx.moveTo(x0*scale+offsetX, y0*scale+offsetY);
+      for(let i=1;i<points.length;i++){
+        const [x,y] = points[i];
+        ctx.lineTo(x*scale+offsetX, y*scale+offsetY);
+      }
+      ctx.closePath();
+      ctx.fillStyle = fillStyle;
+      ctx.fill();
+      if(strokeStyle){
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = strokeStyle;
+        ctx.stroke();
+      }
+    }
+ 
+    drawPolygon(Poly2, '#C8102E', '#7A0617'); // roj0
+
+    drawPolygon(Poly1, '#0B57A4', '#053A63'); // azul 
+ 
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = '#ffffff';
+    ctx.strokeRect(margin/2+3, margin/2+3, canvas.width - margin - 6, canvas.height - margin - 6);
+  </script>
+</body>
+</html>

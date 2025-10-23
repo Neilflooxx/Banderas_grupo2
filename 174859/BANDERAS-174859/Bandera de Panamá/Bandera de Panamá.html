@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bandera de Panamá</title>
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      background:#0b0f15;
+      color:#eaf0ff;
+      font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    h1{margin:0;font-size:28px;font-weight:800}
+    canvas{
+      background:#101726;
+      border:2px solid #243146;
+      border-radius:12px;
+      display:block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bandera de Panamá</h1>
+  <canvas id="lienzo" width="900" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById("lienzo");
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+
+    const blanco = "#FFFFFF";
+    const rojo = "#D21034";
+    const azul = "#00205B";
+
+    ctx.fillStyle = blanco;
+    ctx.fillRect(0,0,W,H);
+
+    ctx.fillStyle = rojo;
+    ctx.fillRect(W/2,0,W/2,H/2);
+
+    ctx.fillStyle = azul;
+    ctx.fillRect(0,H/2,W/2,H/2);
+
+    function estrella(x,y,r,color){
+      ctx.fillStyle=color;
+      ctx.beginPath();
+      for(let i=0;i<5;i++){
+        const ang=(i*4*Math.PI/5)-Math.PI/2;
+        const px=x+Math.cos(ang)*r;
+        const py=y+Math.sin(ang)*r;
+        i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    estrella(W*0.25,H*0.25,60,azul);
+    estrella(W*0.75,H*0.75,60,rojo);
+  </script>
+</body>
+</html>

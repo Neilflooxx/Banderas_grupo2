@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bandera de Sudán</title>
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      background:#0b0f15;
+      color:#eaf0ff;
+      font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    h1{margin:0;font-size:28px;font-weight:800}
+    canvas{
+      background:#101726;
+      border:2px solid #243146;
+      border-radius:12px;
+      display:block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bandera de Sudán</h1>
+  <canvas id="lienzo" width="550" height="300"></canvas>
+  <script>
+    const canvas = document.getElementById("lienzo");
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+
+    const rojo = "#D21034";
+    const blanco = "#FFFFFF";
+    const negro = "#000000";
+    const verde = "#007229";
+
+    ctx.fillStyle = rojo;
+    ctx.fillRect(0, 0, W, H / 3);
+
+    ctx.fillStyle = blanco;
+    ctx.fillRect(0, H / 3, W, H / 3);
+
+    ctx.fillStyle = negro;
+    ctx.fillRect(0, (2 * H) / 3, W, H / 3);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(W * 0.35, H / 2);
+    ctx.lineTo(0, H);
+    ctx.closePath();
+    ctx.fillStyle = verde;
+    ctx.fill();
+  </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bandera de Sierra Leona</title>
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      background:#0b0f15;
+      color:#eaf0ff;
+      font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    h1{margin:0;font-size:28px;font-weight:800}
+    canvas{
+      background:#101726;
+      border:2px solid #243146;
+      border-radius:12px;
+      display:block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bandera de Sierra Leona</h1>
+  <canvas id="lienzo" width="900" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById("lienzo");
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+
+    const verde = "#1EB53A";
+    const blanco = "#FFFFFF";
+    const azul = "#0072C6";
+
+    ctx.fillStyle = verde;
+    ctx.fillRect(0, 0, W, H / 3);
+
+    ctx.fillStyle = blanco;
+    ctx.fillRect(0, H / 3, W, H / 3);
+
+    ctx.fillStyle = azul;
+    ctx.fillRect(0, (2 * H) / 3, W, H / 3);
+  </script>
+</body>
+</html>

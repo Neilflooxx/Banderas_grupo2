@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bandera de España</title>
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      background:#0b0f15;
+      color:#eaf0ff;
+      font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif
+    }
+    h1{margin:0;font-size:28px;font-weight:800}
+    canvas{
+      background:#101726;
+      border:2px solid #243146;
+      border-radius:12px;
+      display:block
+    }
+  </style>
+</head>
+<body>
+  <h1>Bandera de España</h1>
+  <canvas id="lienzo" width="750" height="500"></canvas>
+  <script>
+    const lienzo=document.getElementById("lienzo");
+    const pincel=lienzo.getContext("2d");
+    const W=lienzo.width,H=lienzo.height;
+
+    const rojo="#AA151B";
+    const amarillo="#F1BF00";
+
+    const alturaFranjaRoja=H/4;
+    const alturaFranjaAmarilla=H/2;
+
+    pincel.fillStyle=rojo;
+    pincel.fillRect(0,0,W,alturaFranjaRoja);
+
+    pincel.fillStyle=amarillo;
+    pincel.fillRect(0,alturaFranjaRoja,W,alturaFranjaAmarilla);
+
+    pincel.fillStyle=rojo;
+    pincel.fillRect(0,alturaFranjaRoja+alturaFranjaAmarilla,W,alturaFranjaRoja);
+
+    const escudo=new Image();
+    escudo.src="escudoespaña.png";
+    escudo.onload=()=>{
+      const escudoAncho=150;
+      const escudoAlto=190;
+      const x=W*0.28-escudoAncho/2;
+      const y=(H-escudoAlto)/2;
+      pincel.drawImage(escudo,x,y,escudoAncho,escudoAlto);
+    };
+  </script>
+</body>
+</html>

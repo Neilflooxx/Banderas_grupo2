@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bandera de Dominica</title>
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      background:#0b0f15;
+      color:#eaf0ff;
+      font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif
+    }
+    h1{margin:0;font-size:28px;font-weight:800}
+    canvas{
+      background:#101726;
+      border:2px solid #243146;
+      border-radius:12px;
+      display:block
+    }
+  </style>
+</head>
+<body>
+  <h1>Bandera de Dominica</h1>
+  <canvas id="lienzo" width="600" height="390"></canvas>
+  <script>
+    const lienzo=document.getElementById("lienzo");
+    const pincel=lienzo.getContext("2d");
+    const ancho=lienzo.width, alto=lienzo.height;
+
+    const verde="#006b3f", amarillo="#ffd100", negro="#000000", blanco="#ffffff", rojo="#c8102e", verdeEstrella="#007a3d";
+
+    pincel.fillStyle=verde;
+    pincel.fillRect(0,0,ancho,alto);
+
+    const anchoTotalCruz=alto*0.30;
+    const anchoNegro=anchoTotalCruz*0.70;
+    const anchoAmarillo=anchoTotalCruz*0.45;
+
+    pincel.fillStyle=blanco;
+    pincel.fillRect(ancho/2-anchoTotalCruz/2,0,anchoTotalCruz,alto);
+    pincel.fillRect(0,alto/2-anchoTotalCruz/2,ancho,anchoTotalCruz);
+
+    pincel.fillStyle=negro;
+    pincel.fillRect(ancho/2-anchoNegro/2,0,anchoNegro,alto);
+    pincel.fillRect(0,alto/2-anchoNegro/2,ancho,anchoNegro);
+
+    pincel.fillStyle=amarillo;
+    pincel.fillRect(ancho/2-anchoAmarillo/2,0,anchoAmarillo,alto);
+    pincel.fillRect(0,alto/2-anchoAmarillo/2,ancho,anchoAmarillo);
+
+    const cx=ancho/2, cy=alto/2, radio=alto*0.24;
+
+    pincel.beginPath();
+    pincel.arc(cx,cy,radio,0,Math.PI*2);
+    pincel.fillStyle=rojo;
+    pincel.fill();
+
+    function estrella(x,y,r){
+      const ri=r*0.5, paso=Math.PI/5;
+      pincel.beginPath();
+      for(let i=0;i<10;i++){
+        const a=i*paso-Math.PI/2;
+        const rr=i%2===0?r:ri;
+        pincel.lineTo(x+rr*Math.cos(a),y+rr*Math.sin(a));
+      }
+      pincel.closePath();
+      pincel.fillStyle=verdeEstrella;
+      pincel.fill();
+      pincel.strokeStyle=negro;
+      pincel.lineWidth=1.5;
+      pincel.stroke();
+    }
+
+    const n=10, rEst=radio*0.12, rAnillo=radio*0.75;
+    for(let i=0;i<n;i++){
+      const ang=-Math.PI/2 + (i*(2*Math.PI/n));
+      estrella(cx+rAnillo*Math.cos(ang),cy+rAnillo*Math.sin(ang),rEst);
+    }
+
+    const logo=new Image();
+    logo.src="logodominica.png";
+    logo.onload=()=>{
+      const lw=radio*1.05;
+      const lh=radio*1.05;
+      pincel.drawImage(logo,cx-lw/2,cy-lh/2,lw,lh);
+    };
+  </script>
+</body>
+</html>
