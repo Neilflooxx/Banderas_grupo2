@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bandera de España con Escudo - p5.js</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+</head>
+<body>
+<script>
+let escudo;
+
+function preload() {
+  //Carga el escudo desde tu carpeta local
+ // Asegúrate de que "España.png" esté en la misma carpeta que este archivo .html
+  escudo = loadImage("España.png");
+}
+
+function setup() {
+  createCanvas(600, 400);
+  noStroke();
+}
+
+function draw() {
+  // Fondo blanco
+  background(255);
+
+  // Franja roja superior
+  fill(170, 0, 0);
+  rect(0, 0, width, height / 4);
+
+  // Franja amarilla central (doble grosor)
+  fill(255, 204, 0);
+  rect(0, height / 4, width, height / 2);
+
+  // Franja roja inferior
+  fill(170, 0, 0);
+  rect(0, (3 * height) / 4, width, height / 4);
+
+  // Escudo centrado a la izquierda
+  imageMode(CENTER);
+  image(escudo, width / 3.5, height / 2, 200, 200);
+
+}
+</script>
+</body>
+</html>

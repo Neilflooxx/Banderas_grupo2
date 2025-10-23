@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bandera de las Islas Cocos</title>
+  <!-- Importar la librería p5.js desde CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+  <main>
+  </main>
+
+  <!-- Enlace al archivo de dibujo -->
+  <script>
+    let palmera; // Variable para guardar la imagen
+
+function preload() {
+  // Cargamos la imagen de la palmera (debe estar en la misma carpeta que este archivo)
+  palmera = loadImage("palmera.png");
+}
+
+function setup() {
+  createCanvas(600, 400);
+  noLoop();
+}
+
+function draw() {
+  background(0, 128, 0); // Fondo verde bandera
+  noStroke();
+
+  let amarillo = color(255, 215, 0);
+
+  // --- Círculo amarillo más grande para el emblema ---
+  fill(amarillo);
+  ellipse(100, 100, 140); // Círculo más grande (antes 100)
+
+  // --- Imagen de la palmera centrada dentro del círculo ---
+  imageMode(CENTER);
+  image(palmera, 100, 100, 90, 90); // (x, y, ancho, alto)
+
+  fill(amarillo);
+  ellipse(width / 2 - 40, height / 2, 140);  // Círculo base
+  fill(0, 128, 0);
+  ellipse(width / 2 - 10, height / 2, 140);   // Más metido hacia la derecha
+
+  // --- Estrellas amarillas (sin borde) ---
+  fill(amarillo);
+  // 4 estrellas grandes (7 puntas, rotadas 10°)
+  dibujarEstrella(440, 80, 24, 10, 7, 10);
+  dibujarEstrella(510, 150, 24, 10, 7, 10);
+  dibujarEstrella(340, 180, 24, 10, 7, 10);
+  dibujarEstrella(440, 340, 24, 10, 7, 10);
+
+  // 1 estrella pequeña (5 puntas, rotada 10°)
+  dibujarEstrella(460, 200, 13, 5, 5, 55);
+}
+
+// 🟡 Función para dibujar estrellas
+function dibujarEstrella(x, y, radio1, radio2, n, rotacion = 0) {
+  push();
+  translate(x, y);
+  rotate(radians(rotacion));
+  
+  let ang = TWO_PI / n;
+  beginShape();
+  for (let i = 0; i < TWO_PI; i += ang) {
+    let sx = cos(i) * radio1;
+    let sy = sin(i) * radio1;
+    vertex(sx, sy);
+    sx = cos(i + ang / 2) * radio2;
+    sy = sin(i + ang / 2) * radio2;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+  pop();
+}
+
+  </script>
+</body>
+</html>

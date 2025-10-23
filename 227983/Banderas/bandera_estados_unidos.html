@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bandera de Estados Unidos</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+  <script>
+    function setup() {
+      createCanvas(760, 400);
+      noLoop();
+    }
+
+    function draw() {
+      // --- Fondo blanco ---
+      background(255);
+
+      // --- 13 franjas ---
+      let stripeHeight = height / 13;
+      for (let i = 0; i < 13; i++) {
+        if (i % 2 == 0) fill(178, 34, 52); // rojo
+        else fill(255); // blanco
+        rect(0, i * stripeHeight, width, stripeHeight);
+      }
+
+      // --- Rectángulo azul (campo de estrellas) ---
+      let unionHeight = stripeHeight * 7;
+      let unionWidth = width * 0.4;
+      fill(10, 49, 97);
+      rect(0, 0, unionWidth, unionHeight);
+
+      // --- Estrellas ---
+      fill(255);       // color blanco puro
+      noStroke();      // sin bordes negros
+      let filas = 9;
+      let offsetX = unionWidth / 12;
+      let offsetY = unionHeight / 10;
+      let radioExterior = 13; // tamaño aumentado
+      let radioInterior = 5;
+
+      for (let fila = 0; fila < filas; fila++) {
+        let estrellasEnFila = fila % 2 == 0 ? 6 : 5;
+        let offsetFila = fila % 2 == 0 ? 0 : offsetX;
+
+        for (let col = 0; col < estrellasEnFila; col++) {
+          let x = offsetFila + offsetX + col * 2 * offsetX;
+          let y = (fila + 1) * offsetY;
+          dibujarEstrella(x, y, radioExterior, radioInterior, 5, -PI / 2); // rotada con una punta arriba
+        }
+      }
+    }
+
+    // ⭐ Función para dibujar una estrella con rotación
+    function dibujarEstrella(x, y, radio1, radio2, n, rotacion = 0) {
+      let ang = TWO_PI / n;
+      beginShape();
+      for (let i = 0; i < TWO_PI; i += ang) {
+        let sx = x + cos(i + rotacion) * radio1;
+        let sy = y + sin(i + rotacion) * radio1;
+        vertex(sx, sy);
+        sx = x + cos(i + ang / 2 + rotacion) * radio2;
+        sy = y + sin(i + ang / 2 + rotacion) * radio2;
+        vertex(sx, sy);
+      }
+      endShape(CLOSE);
+    }
+  </script>
+</body>
+</html>

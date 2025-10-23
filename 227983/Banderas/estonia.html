@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bandera de Estonia</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+  <script>
+    function setup() {
+      createCanvas(600, 400);
+      noLoop();
+    }
+
+    function draw() {
+      // Proporción 3:2 (ya cumplida con 600x400)
+      let stripeHeight = height / 3;
+
+      // --- Franja azul ---
+      fill(0, 114, 206);  // Azul estonio (pantone oficial)
+      rect(0, 0, width, stripeHeight);
+
+      // --- Franja negra ---
+      fill(0);  // Negro puro
+      rect(0, stripeHeight, width, stripeHeight);
+
+      // --- Franja blanca ---
+      fill(255);  // Blanco puro
+      rect(0, stripeHeight * 2, width, stripeHeight);
+    }
+  </script>
+</body>
+</html>

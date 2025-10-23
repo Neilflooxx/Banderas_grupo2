@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bandera de Guernsey</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="sketch.js"></script>
+  </head>
+  <body>
+    <script>
+      function setup() {
+  createCanvas(600, 400);
+  noLoop();
+}
+
+function draw() {
+  background(255); // Fondo blanco
+
+  let rojo = color(200, 0, 0);
+  let amarillo = color(255, 215, 0);
+
+  noStroke();
+
+  // --- Cruz roja base ---
+  fill(rojo);
+  rect(width / 2 - 50, 0, 100, height); // vertical
+  rect(0, height / 2 - 50, width, 100); // horizontal
+
+  // --- Cruz amarilla (más gruesa) ---
+  fill(amarillo);
+
+  let grosor = 35;       // grosor central de la cruz amarilla
+  let largo = 130;       // mitad del largo de los brazos
+  let trap = 25;         // tamaño de las puntas trapecio
+
+  // Centro
+  rect(width / 2 - grosor / 2, height / 2 - grosor / 2, grosor, grosor);
+
+  // Brazos horizontales
+  rect(width / 2 - largo, height / 2 - grosor / 2, largo * 2, grosor);
+
+  // Brazos verticales
+  rect(width / 2 - grosor / 2, height / 2 - largo, grosor, largo * 2);
+
+  // --- Trapecios amarillos (ajustados al nuevo grosor) ---
+
+  // Izquierda
+  quad(
+    width / 2 - largo, height / 2 - grosor / 2,
+    width / 2 - largo - trap, height / 2 - grosor,
+    width / 2 - largo - trap, height / 2 + grosor,
+    width / 2 - largo, height / 2 + grosor / 2
+  );
+
+  // Derecha
+  quad(
+    width / 2 + largo, height / 2 - grosor / 2,
+    width / 2 + largo + trap, height / 2 - grosor,
+    width / 2 + largo + trap, height / 2 + grosor,
+    width / 2 + largo, height / 2 + grosor / 2
+  );
+
+  // Arriba
+  quad(
+    width / 2 - grosor / 2, height / 2 - largo,
+    width / 2 - grosor, height / 2 - largo - trap,
+    width / 2 + grosor, height / 2 - largo - trap,
+    width / 2 + grosor / 2, height / 2 - largo
+  );
+
+  // Abajo
+  quad(
+    width / 2 - grosor / 2, height / 2 + largo,
+    width / 2 - grosor, height / 2 + largo + trap,
+    width / 2 + grosor, height / 2 + largo + trap,
+    width / 2 + grosor / 2, height / 2 + largo
+  );
+
+  // Contorno de bandera
+  stroke(0);
+  noFill();
+  rect(0, 0, width, height);
+}
+
+    </script>
+  </body>
+</html>

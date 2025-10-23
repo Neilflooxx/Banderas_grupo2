@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bandera de las Islas Marshall</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+  <script>
+    function setup() {
+      createCanvas(600, 400);
+      noLoop();
+    }
+
+    function draw() {
+      // Fondo azul oscuro
+      background(0, 51, 153);
+      noStroke();
+
+      // --- Franja blanca ---
+      fill(255);
+      beginShape();
+      vertex(0, height - 10);
+      vertex(0, height - 1);
+      vertex(width, 130);
+      vertex(width, 0);
+      endShape(CLOSE);
+
+      // --- Franja naranja ---
+      fill(255, 102, 0);
+      beginShape();
+      vertex(0, height - 5);
+      vertex(0, height - 10);
+      vertex(width, 0);
+      vertex(width, 70);
+      endShape(CLOSE);
+
+      // --- Gran estrella blanca (24 puntas, con 4 más largas) ---
+      fill(255);
+      dibujarEstrellaMarshall(130, 140, 80, 25, 24); // aumentada de tamaño
+    }
+
+    // 🌟 Estrella especial Marshall: 24 puntas, 4 más largas (en cruz)
+    function dibujarEstrellaMarshall(x, y, radioPrincipal, radioSecundario, n) {
+      let ang = TWO_PI / n;
+      beginShape();
+      for (let i = 0; i < n; i++) {
+        let angulo = i * ang;
+        // Alargar las puntas principales (cada 6 pasos: 0°, 90°, 180°, 270°)
+        let radio = (i % 6 === 0) ? radioPrincipal * 1.4 : radioPrincipal;
+        let sx = x + cos(angulo) * radio;
+        let sy = y + sin(angulo) * radio;
+        vertex(sx, sy);
+
+        // Puntos intermedios más cortos
+        let sx2 = x + cos(angulo + ang / 2) * radioSecundario;
+        let sy2 = y + sin(angulo + ang / 2) * radioSecundario;
+        vertex(sx2, sy2);
+      }
+      endShape(CLOSE);
+    }
+  </script>
+</body>
+</html>

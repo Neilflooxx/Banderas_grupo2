@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bandera de Georgia</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+  <script>
+    function setup() {
+      createCanvas(600, 400);
+      noLoop();
+    }
+
+    function draw() {
+      background(255); // Fondo blanco
+
+      // --- Gran cruz central roja ---
+      fill(220, 0, 0); // Rojo georgiano más intenso
+      noStroke();
+
+      // Vertical
+      rect(width / 2 - 40, 0, 80, height);
+      // Horizontal
+      rect(0, height / 2 - 40, width, 80);
+
+      // --- Cuatro cruces pequeñas ---
+      let cruzTam = 70;
+      let offsetX = 150;
+      let offsetY = 100;
+
+      // Superior izquierda
+      dibujarCruzCurva(width / 2 - offsetX, height / 2 - offsetY, cruzTam);
+      // Superior derecha
+      dibujarCruzCurva(width / 2 + offsetX, height / 2 - offsetY, cruzTam);
+      // Inferior izquierda
+      dibujarCruzCurva(width / 2 - offsetX, height / 2 + offsetY, cruzTam);
+      // Inferior derecha
+      dibujarCruzCurva(width / 2 + offsetX, height / 2 + offsetY, cruzTam);
+    }
+
+    // ✝️ Cruz georgiana con bordes curvados hacia adentro
+    function dibujarCruzCurva(x, y, s) {
+      fill(220, 0, 0);
+      noStroke();
+
+      let brazo = s / 3;
+      let curva = brazo / 3; // controla cuánto se hunde la curva
+
+      push();
+      translate(x, y);
+
+      // Brazo vertical
+      beginShape();
+      vertex(-brazo / 2, -s / 2);
+      bezierVertex(-brazo / 2 + curva / 2, -s / 2 + curva / 2, brazo / 2 - curva / 2, -s / 2 + curva / 2, brazo / 2, -s / 2);
+      vertex(brazo / 2, s / 2);
+      bezierVertex(brazo / 2 - curva / 2, s / 2 - curva / 2, -brazo / 2 + curva / 2, s / 2 - curva / 2, -brazo / 2, s / 2);
+      endShape(CLOSE);
+
+      // Brazo horizontal
+      beginShape();
+      vertex(-s / 2, -brazo / 2);
+      bezierVertex(-s / 2 + curva / 2, -brazo / 2 + curva / 2, -s / 2 + curva / 2, brazo / 2 - curva / 2, -s / 2, brazo / 2);
+      vertex(s / 2, brazo / 2);
+      bezierVertex(s / 2 - curva / 2, brazo / 2 - curva / 2, s / 2 - curva / 2, -brazo / 2 + curva / 2, s / 2, -brazo / 2);
+      endShape(CLOSE);
+
+      pop();
+    }
+  </script>
+</body>
+</html>
